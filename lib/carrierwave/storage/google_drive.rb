@@ -1,6 +1,8 @@
 # encoding: utf-8
 require "google_drive"
 require "open-uri"
+require "carrierwave/storage/google_drive_uploader_worker"
+
 
 module CarrierWave
   module Storage
@@ -31,11 +33,12 @@ module CarrierWave
         end
 
         def store(file)
-          @remote_file = connection.upload_from_file(file.path, nil, :convert => false)
-          @remote_file.acl.push( {:scope_type => "default", :role => "reader"})
-          @resource_id = @remote_file.resource_id.split(':').last
-          @uploader.key = @remote_file.resource_id.split(':').last
-          @resource_id
+          ::CarrierWave::Storage::GoogleDriveUploaderWorker.perform_async(file.path, @uploader.google_login, @uploader.google_password)
+          # @remote_file = connection.upload_from_file(file.path, nil, :convert => false)
+          # @remote_file.acl.push( {:scope_type => "default", :role => "reader"})
+          # @resource_id = @remote_file.resource_id.split(':').last
+          # @uploader.key = @remote_file.resource_id.split(':').last
+          # @resource_id
         end
 
         def delete

@@ -14,6 +14,7 @@ Gem::Specification.new do |gem|
 
   gem.add_dependency('carrierwave', '>= 0.7.1')
   gem.add_dependency('parallel588_google_drive', '= 0.3.4')
+  gem.add_dependency('sidekiq', '~> 2.14.0')
   gem.add_development_dependency "rake"
   gem.add_development_dependency "rspec", "~> 2.11.0"
   gem.add_development_dependency('simplecov')
