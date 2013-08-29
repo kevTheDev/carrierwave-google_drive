@@ -11,11 +11,13 @@ module CarrierWave
       after :store, :updatemodel
 
       def updatemodel(file)
+        Rails.logger.info "UPDATE MODEL"
         model.update_column("#{self.mounted_as}".to_sym, build_version_hash(self.key).to_yaml)
       end
 
-      def build_version_hash(google_reource_id)
-        load_version_hash.merge({ (version_name.blank? ? :default : version_name.to_sym) =>  google_reource_id })
+      def build_version_hash(google_resource_id)
+        Rails.logger.info "BUILD VERSION HASH"
+        load_version_hash.merge({ (version_name.blank? ? :default : version_name.to_sym) =>  google_resource_id })
       end
 
       def load_version_hash

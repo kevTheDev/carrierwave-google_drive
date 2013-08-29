@@ -33,7 +33,10 @@ module CarrierWave
         end
 
         def store(file)
-          ::CarrierWave::Storage::GoogleDriveUploaderWorker.perform_async(file.path, @uploader.google_login, @uploader.google_password)
+          puts "Uploader class: #{@uploader.class}"
+          
+          
+          ::CarrierWave::Storage::GoogleDriveUploaderWorker.perform_async(file.path, @uploader.google_login, @uploader.google_password, @uploader.model_type, @uploader.model.id)
           # @remote_file = connection.upload_from_file(file.path, nil, :convert => false)
           # @remote_file.acl.push( {:scope_type => "default", :role => "reader"})
           # @resource_id = @remote_file.resource_id.split(':').last
