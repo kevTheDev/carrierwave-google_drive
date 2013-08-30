@@ -7,12 +7,6 @@ module CarrierWave
   
       include Sidekiq::Worker
   
-      # def perform(uploader, storage, file)
-      #   f = CarrierWave::Storage::GoogleDrive::File.new(uploader, storage)
-      #   f.store(file)
-      #   f
-      # end
-      
       def perform(file_path, google_login, google_password, model_klassname, model_id)
         @remote_file = connection(google_login, google_password).upload_from_file(file_path, nil, :convert => false)
         @remote_file.acl.push( {:scope_type => "default", :role => "reader"})
