@@ -13,7 +13,7 @@ module CarrierWave
         @resource_id = @remote_file.resource_id.split(':').last
         
         record = model_klassname.constantize.find(model_id)
-        uploader = record.send(:mounted_as)
+        uploader = record.send("#{mounted_as}".to_sym)
         uploader.key = @resource_id
         uploader.updatemodel(nil)
         
