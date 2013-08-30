@@ -33,7 +33,7 @@ module CarrierWave
         end
 
         def store(file)
-          ::CarrierWave::Storage::GoogleDriveUploaderWorker.perform_async(file.path, @uploader.google_login, @uploader.google_password, @uploader.model_type, @uploader.model.id)
+          ::CarrierWave::Storage::GoogleDriveUploaderWorker.perform_async(file.path, @uploader.google_login, @uploader.google_password, @uploader.model_type, @uploader.model.id, @uploader.mounted_as)
         end
 
         def delete
